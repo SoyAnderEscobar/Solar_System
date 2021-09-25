@@ -1,0 +1,488 @@
+body{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background: url(fondo.jpg) no-repeat center fixed;
+	background-size: cover;
+}
+
+h1{
+	color: #fff;
+}
+
+.clearfix{
+	clear: both; /*ESTO HACE QUE EL Siguiente elemento se coloque debajo*/
+}
+
+ul.solarsystem{
+	height: 640px;
+	position: relative;
+	list-style: none;
+	transition: all 0.9s ease-in;
+	overflow: hidden;
+}
+
+ul.solarsystem li{
+	text-indent: -9999px; /*Esto funciona para que no se visualicen las letras*/
+	display: block;
+	position: absolute;
+	border: 2px solid #394057;
+
+}
+
+ul.solarsystem li span{
+	display: block;
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+}
+ul.solarsystem li.active.sun, ul.solarsystem li.active span{
+	transform: scale(100,20);
+}
+/*Dibujo del sol*/
+ul.solarsystem li.sun{
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	background: #fc3;
+	/*UN GRADIENT ES UN DEGRADADO*/
+	background-image: -webkit-gradient(
+		linear, left bottom, left top, color-stop(0.22, rgb(2015,153,0)), color-stop(1, rgb(255,219,112))
+		);
+	top: 302px;
+	left: 462px;
+	border: none;
+	box-shadow: 0 0 50px #c90;
+	z-index: 100;
+	transition: all 0.2s ease-in;
+}
+/*espacio entre el sol y la orbita de mercurio no es realmente necesario*/
+/*ul.solarsystem li.sun span{
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+
+}*/
+/*ESTE BLOQUE REPRESENTA LA ORBITA*/
+ul.solarsystem li.mercury{
+	width: 100px;
+	height: 100px;
+	border-radius: 52px;
+	top: 270px;
+	left: 430px;
+	z-index: 99;
+	animation-duration: 5s;
+}
+/*ESTE BLOQUE REPRESENTA EL PLANETA*/
+ul.solarsystem li.mercury span{
+	background: #b6bac5;
+	top: 10px;
+	left: 10px;
+
+}
+/*ORBITA DE VENUS*/
+
+ul.solarsystem li.venus
+{
+	width: 160px;
+	height: 160px;
+	border-radius: 86px;
+	top: 240px;
+	left: 400px;
+	z-index: 98;
+	animation-duration: 8s;
+}
+
+/*PLANETA VENUS*/
+
+ul.solarsystem li.venus span{
+
+	background: #bf8639;
+	top: 118px;
+	left: 5px;
+
+}
+
+/*Orbita de la tierra*/
+
+ul.solarsystem li.earth{
+	width: 220px;
+	height: 220px;
+	border-radius: 112px;
+	top: 210px;
+	left: 370px;
+	z-index: 97;
+	animation-duration: 12s;
+}
+
+/*planeta earth*/
+
+ul.solarsystem li.earth span{
+	background: #06c;
+	top: 65px;
+	left: 5px;
+}
+
+/*LUNE*/
+
+ul.solarsystem li.earth span.luna{
+	width: 4px;
+	height: 4px;
+	border-radius: 2px;
+	background: #ccc;
+	top: 12px;
+	left: 12px;
+}
+
+/*ORBITA MARTE*/
+
+ul.solarsystem li.mars{
+	width: 280px;
+	height: 280px;
+	border-radius: 142px;
+	top: 180px;
+	left: 340px;
+	z-index: 96;
+	animation-duration: 20s;
+}
+/*PLANETA MARTE*/
+ul.solarsystem li.mars span{
+	background: #aa4200;
+	top: 0;
+	left: 175px;
+}
+/*ASTEROIDES*/
+ul.solarsystem li.asteroids_meteorids{
+	top: 155px;
+	left: 315px;
+	z-index: 1;
+	background: url(asteroids_meteorids.png) no-repeat 0 0;
+	width: 330px;
+	height: 330px;
+	border-radius: 165px;
+	border: none;
+	animation-duration: 50s;
+}
+
+/*ORBITA DE JUPITER*/
+
+ul.solarsystem li.jupiter{
+	width: 340px;
+	height: 340px;
+	border-radius: 172px;
+	top: 150px;
+	left: 310px;
+	z-index: 95;
+	animation-duration: 30s;
+}
+/*Planeta Jupiter*/
+ul.solarsystem li.jupiter span{
+	background: #e0ae6f;
+	top: 67px;
+	left: 24px;
+}
+
+/*Orbita de saturno*/
+
+ul.solarsystem li.saturn{
+	width: 400px;
+	height: 400px;
+	border-radius: 202px;
+	top: 120px;
+	left: 280px;
+	z-index: 94;
+	animation-duration: 60s;
+}
+
+/*PLANETA SATURNO*/
+
+ul.solarsystem li.saturn span{
+	background: #dfd3a9;
+	top: 24px;
+	left: 300px;
+}
+/*ANILLOS DE SATURNO*/
+ul.solarsystem li.saturn span.anillos{
+	width: 12px;
+	height: 12px;
+	border-radius: 8px;
+	background: none;
+	border: 2px solid #5a4e34;
+	top: -3px;
+	left:-3px;
+	transform: skewY(40deg);/*deformar la vertical*/
+
+}
+
+/*Orbita de Urano*/
+
+ul.solarsystem li.uranus{
+	width: 460px;
+	height: 460px;
+	border-radius: 232px;
+	top: 90px;
+	left: 250px;
+	z-index: 93;
+	animation-duration: 70s;
+}
+
+/*Planeta Urano*/
+
+ul.solarsystem li.uranus span{
+	background: #82b3d1;
+	top: 7px;
+	left: 300px;
+}
+
+/*Orbita de Nepturno*/
+
+ul.solarsystem li.neptune{
+	width: 520px;
+	height: 520px;
+	border-radius: 262px;
+	top:60px;
+	left: 220px;
+	z-index: 92;
+	animation-duration: 100s;
+
+}
+
+/*PLANETA NEPTURNO*/
+
+ul.solarsystem li.neptune span{
+	background: #77c2ec;
+	top: 0;
+	left: 200px;
+}
+
+/*Orbita de Pluton*/
+
+ul.solarsystem li.pluto{
+	width: 580px;
+	height: 580px;
+	border-radius: 292px;
+	top: 30px;
+	left: 190px;
+	z-index: 91;
+	animation-duration: 120s;
+}
+
+ul.solarsystem li.pluto span{
+	background: #7c6a5c;
+	top: 79px;
+	left: 79px;
+}
+
+/*Animacuones*/
+
+/*ANIMACION PARA QUE LA TIERRA DE LA VUELTA*/
+ul.solarsystem li{
+	animation-name: orbita;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-duration: 12s;
+}
+
+@keyframes orbita{
+	from{
+		transform: rotate(0deg);
+	}
+	to{
+		transform: rotate(360deg);
+	}
+}
+
+/*Rotacion de la luna*/
+
+ul.solarsystem li.earth span{
+	animation-name: luna;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-duration: 2s;
+}
+
+@keyframes luna{
+
+	from{
+		transform: rotate(0deg);
+	}
+	to{
+		transform: rotate(360deg);
+	}
+
+
+}
+
+/*Descripciones*/
+
+ul#descripciones{
+	position: absolute;
+	top: 150px;
+	right: 100px;
+	list-style: none;
+
+}
+
+ul#descripciones h2{
+	color: #fff;
+	cursor: pointer;
+	transition: all 0.15s ease-in;
+	font-size: 20px;
+	position: relative;
+	z-index: 101;
+	transform: scale(1);
+
+}
+
+ul#descripciones h2:hover{
+	color: #aa4200;
+	transform: scale(1.20);
+
+}
+
+ul#descripciones li p{
+	position: absolute;
+	left: -250px;
+	top: 0;
+	width: 250px;
+	display: inline;
+	opacity: 0;
+	visibility: 0;
+	font-size: 13px;
+	border-radius: 5px;
+	transition: all 0.3s ease-in;
+	background: rgba(22,99,179,0.4);
+	padding: 15px;
+	color: #fff;
+	line-height: 1.7em;
+	z-index: 160;
+	border: 2px solid #fff;
+}
+
+ul#descripciones li p img{
+	float: left;
+	width: 100px;
+	margin-right: 10px;
+}
+
+/*CUANDO ESTE LA FLECHA DEL MOUSE ENCIMA DEL H2 APARECERA EL PARRAFO*/
+ul#descripciones h2:hover+p{
+	visibility: visible;
+	opacity: 0.9;
+	left: -280px;
+}
+
+
+/*SUPERNOVA*/
+
+div.supernova{
+
+	position: absolute;
+	top: 200px;
+	right: 150px;
+	opacity: 0.4;
+	animation-name: supernova;
+	animation-iteration-count: infinite;
+	animation-duration: 150s; /*AQUI TAMBIEN SE PUEDE PONDE MINI-SEGUNDOS COLOCANDO ms EN VEZ DE s*/
+	animation-timing-function: linear;
+	z-index: 100;
+
+}
+
+@keyframes supernova{
+	from{
+		transform: rotate(0deg);
+	}
+	to{
+		transform: rotate(360deg);
+	}
+}
+
+/*COMETA*/
+
+div.cometa{
+	position: absolute;
+	opacity: 0.6;
+	animation-name: cometa;
+	animation-iteration-count: infinite;
+	animation-duration: 60s;
+	animation-timing-function: linear; 
+	z-index: 150;
+	
+ }
+
+.cometa img{
+	
+	filter: drop-shadow(1px 1px 2px blue);/*ESTO REALIZA UN SOMBREADO DIRECTO AL LA IMAGEN DEL PNG SIN TOMAR EN CUENTA LA LOS BORDES DE LA CAJA QUE LO CONTIENE*/ 
+	width: 60%;
+}
+
+/*@keyframes funciaona para realizar los fotogramas de lo que se desea animar para que este cambie con el tiempo*/
+
+@keyframes cometa{
+	from{
+		left: 0;
+		top: 100px;
+	}
+	to{
+		top: 600px;/*para que se vaya desplazando hacia abajo*/
+		left: 100%;/*para que se salga de pantalla*/
+	}
+}
+
+/*SONDA VOYAGER*/
+
+div.sonda{
+	position: absolute;
+		animation-name: voyager;
+	animation-iteration-count: infinite;
+	animation-duration: 50s;
+	animation-timing-function: linear;
+	z-index: 250;
+	opacity: 0.6;
+}
+
+div.sonda img{
+	width: 20%;
+
+}
+
+@keyframes voyager{
+	0%{
+		bottom: 0;
+		left: 0;
+	}
+	25%{
+		opacity: 1;
+	}
+	100%{
+		opacity: 0.6;
+		bottom:100%;
+		left: 1400px;
+
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
