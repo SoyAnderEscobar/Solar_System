@@ -1,88 +1,388 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Sistema Solar</title>
+	<title>Sistema Solar Interactivo</title>
 	<link rel="stylesheet" href="sistema_solar.css" type="text/css">
 </head>
 <body>
-	
+
 	<header class="clearfix">
-		<h1>Sistema Solar</h1>
+		<h1>Sistema Solar Interactivo</h1>
+		<p class="subtitle">Haz clic en cualquier planeta para explorar</p>
 	</header>
 
+	<!-- Controles -->
+	<div id="controles">
+		<button id="btn-pausa" title="Pausar/Reanudar animaciones">&#9654; Pausar</button>
+		<div class="speed-control">
+			<label>Velocidad:</label>
+			<input type="range" id="velocidad" min="0.1" max="3" step="0.1" value="1">
+			<span id="vel-label">1x</span>
+		</div>
+		<button id="btn-reset" title="Restablecer vista">&#8634; Reset</button>
+	</div>
+
+	<!-- Panel de información -->
+	<div id="info-panel" class="info-panel hidden">
+		<button id="cerrar-panel" class="cerrar-btn">&times;</button>
+		<div class="info-header">
+			<div id="info-icono" class="info-icono"></div>
+			<h2 id="info-nombre"></h2>
+			<span id="info-tipo" class="info-tipo"></span>
+		</div>
+		<p id="info-descripcion" class="info-desc"></p>
+		<div class="info-datos">
+			<div class="dato">
+				<span class="dato-label">Distancia al Sol</span>
+				<span id="info-distancia" class="dato-valor"></span>
+			</div>
+			<div class="dato">
+				<span class="dato-label">Temperatura</span>
+				<span id="info-temperatura" class="dato-valor"></span>
+			</div>
+			<div class="dato">
+				<span class="dato-label">Diametro</span>
+				<span id="info-diametro" class="dato-valor"></span>
+			</div>
+			<div class="dato">
+				<span class="dato-label">Periodo orbital</span>
+				<span id="info-orbita" class="dato-valor"></span>
+			</div>
+			<div class="dato">
+				<span class="dato-label">Lunas conocidas</span>
+				<span id="info-lunas" class="dato-valor"></span>
+			</div>
+		</div>
+		<div id="info-dato-curioso" class="dato-curioso"></div>
+	</div>
+
+	<!-- Tooltip al hacer hover -->
+	<div id="tooltip" class="tooltip hidden"></div>
+
 	<section class="clearfix">
-		<ul class="solarsystem">
-			<li class="sun"><span>sol</span></li>
-			<li class="mercury"><span>mercurio</span></li>
-			<li class="venus"><span>venus</span></li>
-			<li class="earth"><span>tierra<span class="luna">luna</span></span></li>
-			<li class="mars"><span>marte</span></li>
-			<li class="asteroids_meteorids"><span>meteoritos</span></li>
-			<li class="jupiter"><span>jupiter</span></li>
-			<li class="saturn"><span>saturno <span class="anillos">anillos</span></span></li>
-			<li class="uranus"><span>urano</span></li>
-			<li class="neptune"><span>nepturno</span></li>
-			<li class="pluto"><span>pluton</span></li>
+		<ul class="solarsystem" id="sistema-solar">
+			<li class="sun" data-planeta="sol"><span>Sol</span></li>
+			<li class="mercury" data-planeta="mercurio"><span>Mercurio</span></li>
+			<li class="venus" data-planeta="venus"><span>Venus</span></li>
+			<li class="earth" data-planeta="tierra"><span>Tierra<span class="luna">Luna</span></span></li>
+			<li class="mars" data-planeta="marte"><span>Marte</span></li>
+			<li class="asteroids_meteorids" data-planeta="asteroides"><span>Asteroides</span></li>
+			<li class="jupiter" data-planeta="jupiter"><span>Jupiter</span></li>
+			<li class="saturn" data-planeta="saturno"><span>Saturno<span class="anillos">Anillos</span></span></li>
+			<li class="uranus" data-planeta="urano"><span>Urano</span></li>
+			<li class="neptune" data-planeta="neptuno"><span>Neptuno</span></li>
+			<li class="pluto" data-planeta="pluton"><span>Pluton</span></li>
 		</ul>
-		<ul id="descripciones">
-			<li>
-				<h2>Sol</h2>
-				<p><img src="sol.jpg" alt="Imagen del sol">1.El término musicoterapia, según La Federación Mundial de Musicoterapia, se refiere al uso de la música y/o sus elementos (sonido, ritmo, melodía, armonía) realizado por un musicoterapeuta calificado con un paciente o grupo, en un proceso creado para facilitar, promover la comunicación, las relaciones, el aprendizaje, el movimiento, la expresión, la organización y otros objetivos terapéuticos relevantes.</p>
-			</li>
-			<li>
-				<h2>Mercurio</h2>
-				<p>2.El término musicoterapia, según La Federación Mundial de Musicoterapia, se refiere al uso de la música y/o sus elementos (sonido, ritmo, melodía, armonía) realizado por un musicoterapeuta calificado con un paciente o grupo, en un proceso creado para facilitar, promover la comunicación, las relaciones, el aprendizaje, el movimiento, la expresión, la organización y otros objetivos terapéuticos relevantes.</p>
-			</li>
-			<li>
-				<h2>Venus</h2>
-				<p>3.El término musicoterapia, según La Federación Mundial de Musicoterapia, se refiere al uso de la música y/o sus elementos (sonido, ritmo, melodía, armonía) realizado por un musicoterapeuta calificado con un paciente o grupo, en un proceso creado para facilitar, promover la comunicación, las relaciones, el aprendizaje, el movimiento, la expresión, la organización y otros objetivos terapéuticos relevantes.</p>
-			</li>
-			<li>
-				<h2>Tierra</h2>
-				<p>4.El término musicoterapia, según La Federación Mundial de Musicoterapia, se refiere al uso de la música y/o sus elementos (sonido, ritmo, melodía, armonía) realizado por un musicoterapeuta calificado con un paciente o grupo, en un proceso creado para facilitar, promover la comunicación, las relaciones, el aprendizaje, el movimiento, la expresión, la organización y otros objetivos terapéuticos relevantes.</p>
-			</li>
-			<li>
-				<h2>Marte</h2>
-				<p>5.El término musicoterapia, según La Federación Mundial de Musicoterapia, se refiere al uso de la música y/o sus elementos (sonido, ritmo, melodía, armonía) realizado por un musicoterapeuta calificado con un paciente o grupo, en un proceso creado para facilitar, promover la comunicación, las relaciones, el aprendizaje, el movimiento, la expresión, la organización y otros objetivos terapéuticos relevantes.</p>
-			</li>
-			<li>
-				<h2>Jupiter</h2>
-				<p>6.El término musicoterapia, según La Federación Mundial de Musicoterapia, se refiere al uso de la música y/o sus elementos (sonido, ritmo, melodía, armonía) realizado por un musicoterapeuta calificado con un paciente o grupo, en un proceso creado para facilitar, promover la comunicación, las relaciones, el aprendizaje, el movimiento, la expresión, la organización y otros objetivos terapéuticos relevantes.</p>
-			</li>
-			<li>
-				<h2>Saturno</h2>
-				<p>7.El término musicoterapia, según La Federación Mundial de Musicoterapia, se refiere al uso de la música y/o sus elementos (sonido, ritmo, melodía, armonía) realizado por un musicoterapeuta calificado con un paciente o grupo, en un proceso creado para facilitar, promover la comunicación, las relaciones, el aprendizaje, el movimiento, la expresión, la organización y otros objetivos terapéuticos relevantes.</p>
-			</li>
-			<li>
-				<h2>Urano</h2>
-				<p>8.El término musicoterapia, según La Federación Mundial de Musicoterapia, se refiere al uso de la música y/o sus elementos (sonido, ritmo, melodía, armonía) realizado por un musicoterapeuta calificado con un paciente o grupo, en un proceso creado para facilitar, promover la comunicación, las relaciones, el aprendizaje, el movimiento, la expresión, la organización y otros objetivos terapéuticos relevantes.</p>
-			</li>
-			<li>
-				<h2>Nepturno</h2>
-				<p>9.El término musicoterapia, según La Federación Mundial de Musicoterapia, se refiere al uso de la música y/o sus elementos (sonido, ritmo, melodía, armonía) realizado por un musicoterapeuta calificado con un paciente o grupo, en un proceso creado para facilitar, promover la comunicación, las relaciones, el aprendizaje, el movimiento, la expresión, la organización y otros objetivos terapéuticos relevantes.</p>
-			</li>
-			<li>
-				<h2>Pluton</h2>
-				<p>10.El término musicoterapia, según La Federación Mundial de Musicoterapia, se refiere al uso de la música y/o sus elementos (sonido, ritmo, melodía, armonía) realizado por un musicoterapeuta calificado con un paciente o grupo, en un proceso creado para facilitar, promover la comunicación, las relaciones, el aprendizaje, el movimiento, la expresión, la organización y otros objetivos terapéuticos relevantes.</p>
-			</li>
 
-		</ul>
-		<div class="cometa">
-			
-			<img src="cometa.png" alt="cometa"/>
-
-		</div>
-		<div class="supernova">
-			<img src="supernova.png" alt="supernova"/>
-		</div>
-
-		<div class="sonda">
-			<img src="voyager.png" alt="sonda voyager">
-		</div>
-
+		<!-- Estrellas de fondo animadas -->
+		<div class="estrellas" id="estrellas"></div>
 	</section>
+
+	<div class="cometa">
+		<img src="cometa.png" alt="cometa"/>
+	</div>
+	<div class="supernova">
+		<img src="supernova.png" alt="supernova"/>
+	</div>
+	<div class="sonda">
+		<img src="voyager.png" alt="sonda voyager">
+	</div>
+
+	<footer>
+		<p>Sistema Solar Interactivo &mdash; Computacion Grafica 2026</p>
+	</footer>
+
+	<script>
+	// ==================== DATOS DE LOS PLANETAS ====================
+	const planetas = {
+		sol: {
+			nombre: "Sol",
+			tipo: "Estrella",
+			color: "#fc3",
+			descripcion: "El Sol es la estrella en el centro de nuestro sistema solar. Es una enorme esfera de gas caliente compuesta principalmente de hidrogeno y helio. Su energia, generada por fusion nuclear en su nucleo, es la fuente de luz y calor que hace posible la vida en la Tierra.",
+			distancia: "0 km (centro)",
+			temperatura: "5,500 °C (superficie)",
+			diametro: "1,392,700 km",
+			orbita: "N/A",
+			lunas: "N/A",
+			curioso: "El Sol contiene el 99.86% de toda la masa del sistema solar. Cada segundo, convierte 600 millones de toneladas de hidrogeno en helio."
+		},
+		mercurio: {
+			nombre: "Mercurio",
+			tipo: "Planeta rocoso",
+			color: "#b6bac5",
+			descripcion: "Mercurio es el planeta mas pequeno y el mas cercano al Sol. Su superficie esta cubierta de crateres, similar a nuestra Luna. No tiene atmosfera significativa, lo que provoca cambios de temperatura extremos entre el dia y la noche.",
+			distancia: "57.9 millones km",
+			temperatura: "-180 °C a 430 °C",
+			diametro: "4,879 km",
+			orbita: "88 dias terrestres",
+			lunas: "0",
+			curioso: "Un dia en Mercurio (rotacion completa) dura 59 dias terrestres, pero su ano solo dura 88 dias. Esto significa que un dia en Mercurio es mas largo que medio ano mercuriano."
+		},
+		venus: {
+			nombre: "Venus",
+			tipo: "Planeta rocoso",
+			color: "#bf8639",
+			descripcion: "Venus es el segundo planeta desde el Sol y el mas caliente del sistema solar debido a su denso efecto invernadero. Su atmosfera esta compuesta casi en su totalidad de dioxido de carbono con nubes de acido sulfurico.",
+			distancia: "108.2 millones km",
+			temperatura: "462 °C (promedio)",
+			diametro: "12,104 km",
+			orbita: "225 dias terrestres",
+			lunas: "0",
+			curioso: "Venus gira en sentido contrario a la mayoria de los planetas (rotacion retrograda). Ademas, su rotacion es tan lenta que un dia en Venus dura mas que un ano venusiano."
+		},
+		tierra: {
+			nombre: "Tierra",
+			tipo: "Planeta rocoso",
+			color: "#06c",
+			descripcion: "La Tierra es el tercer planeta desde el Sol y el unico conocido que alberga vida. Tiene agua liquida en su superficie, una atmosfera rica en nitrogeno y oxigeno, y un campo magnetico que la protege de la radiacion solar.",
+			distancia: "149.6 millones km",
+			temperatura: "15 °C (promedio)",
+			diametro: "12,742 km",
+			orbita: "365.25 dias",
+			lunas: "1 (Luna)",
+			curioso: "La Tierra no es una esfera perfecta: esta ligeramente achatada en los polos y ensanchada en el ecuador. Ademas, el 71% de su superficie esta cubierta de agua."
+		},
+		marte: {
+			nombre: "Marte",
+			tipo: "Planeta rocoso",
+			color: "#aa4200",
+			descripcion: "Marte, conocido como el 'Planeta Rojo' por el oxido de hierro en su superficie, es el cuarto planeta desde el Sol. Tiene la montana mas alta del sistema solar (Olympus Mons) y un enorme sistema de canones (Valles Marineris).",
+			distancia: "227.9 millones km",
+			temperatura: "-63 °C (promedio)",
+			diametro: "6,779 km",
+			orbita: "687 dias terrestres",
+			lunas: "2 (Fobos y Deimos)",
+			curioso: "El Monte Olimpo en Marte tiene 21.9 km de altura, casi 3 veces la altura del Monte Everest. Los Valles Marineris tienen 4,000 km de largo."
+		},
+		asteroides: {
+			nombre: "Cinturon de Asteroides",
+			tipo: "Region de asteroides",
+			color: "#888",
+			descripcion: "El cinturon de asteroides es una region del sistema solar entre las orbitas de Marte y Jupiter donde se concentran millones de objetos rocosos. Ceres, el objeto mas grande, fue reclasificado como planeta enano en 2006.",
+			distancia: "329-478 millones km",
+			temperatura: "-73 °C (promedio)",
+			diametro: "Varied (Ceres: 940 km)",
+			orbita: "3-6 anos terrestres",
+			lunas: "N/A",
+			curioso: "A pesar de lo que muestran las peliculas, el cinturon de asteroides es mayormente espacio vacio. Si juntaras todos los asteroides, su masa total seria solo el 4% de la masa de la Luna."
+		},
+		jupiter: {
+			nombre: "Jupiter",
+			tipo: "Gigante gaseoso",
+			color: "#e0ae6f",
+			descripcion: "Jupiter es el planeta mas grande del sistema solar, con una masa 318 veces mayor que la Tierra. Su caracteristica mas famosa es la Gran Mancha Roja, una tormenta anticiclonica que ha durado al menos 400 anos.",
+			distancia: "778.5 millones km",
+			temperatura: "-110 °C (nubes)",
+			diametro: "139,820 km",
+			orbita: "11.86 anos terrestres",
+			lunas: "95 conocidas",
+			curioso: "Jupiter tiene un campo magnetico 20,000 veces mas fuerte que el de la Tierra. Su luna Europa tiene un oceano subterraneo que podria albergar vida."
+		},
+		saturno: {
+			nombre: "Saturno",
+			tipo: "Gigante gaseoso",
+			color: "#dfd3a9",
+			descripcion: "Saturno es famoso por su espectacular sistema de anillos, compuestos principalmente de particulas de hielo y roca. Es el segundo planeta mas grande del sistema solar y tiene una densidad tan baja que flotaria en agua.",
+			distancia: "1,434 millones km",
+			temperatura: "-140 °C (nubes)",
+			diametro: "116,460 km",
+			orbita: "29.46 anos terrestres",
+			lunas: "146 conocidas",
+			curioso: "Los anillos de Saturno se extienden hasta 282,000 km del planeta, pero tienen solo 10 metros de grosor en promedio. Su luna Titan tiene lagos de metano liquido."
+		},
+		urano: {
+			nombre: "Urano",
+			tipo: "Gigante de hielo",
+			color: "#82b3d1",
+			descripcion: "Urano es el septimo planeta desde el Sol y tiene una peculiaridad unica: su eje de rotacion esta inclinado casi 98 grados, por lo que basicamente gira 'de lado'. Fue el primer planeta descubierto con un telescopio en 1781.",
+			distancia: "2,871 millones km",
+			temperatura: "-195 °C",
+			diametro: "50,724 km",
+			orbita: "84 anos terrestres",
+			lunas: "28 conocidas",
+			curioso: "Debido a su inclinacion extrema, cada polo de Urano recibe 42 anos continuos de luz solar seguidos de 42 anos de oscuridad."
+		},
+		neptuno: {
+			nombre: "Neptuno",
+			tipo: "Gigante de hielo",
+			color: "#77c2ec",
+			descripcion: "Neptuno es el planeta mas lejano del Sol. Tiene los vientos mas rapidos del sistema solar, alcanzando velocidades de hasta 2,100 km/h. Su color azul intenso se debe al metano en su atmosfera.",
+			distancia: "4,495 millones km",
+			temperatura: "-200 °C",
+			diametro: "49,244 km",
+			orbita: "164.8 anos terrestres",
+			lunas: "16 conocidas",
+			curioso: "Neptuno fue el primer planeta encontrado mediante prediccion matematica antes de ser observado. Su luna Triton orbita en direccion opuesta al giro del planeta."
+		},
+		pluton: {
+			nombre: "Pluton",
+			tipo: "Planeta enano",
+			color: "#7c6a5c",
+			descripcion: "Pluton fue considerado el noveno planeta hasta 2006, cuando fue reclasificado como planeta enano. Se encuentra en el Cinturon de Kuiper y tiene un corazon de nitrogeno congelado visible en su superficie.",
+			distancia: "5,906 millones km",
+			temperatura: "-230 °C",
+			diametro: "2,377 km",
+			orbita: "248 anos terrestres",
+			lunas: "5 (Caronte, Nix, Hidra, Cerbero, Estigia)",
+			curioso: "El corazon de Pluton, llamado Tombaugh Regio, tiene 1,600 km de ancho. Su luna Caronte es tan grande en proporcion que ambos orbitan un punto en el espacio entre ellos."
+		}
+	};
+
+	// ==================== INTERACTIVIDAD ====================
+
+	// Panel de informacion
+	const infoPanel = document.getElementById('info-panel');
+	const tooltip = document.getElementById('tooltip');
+	let animacionPausada = false;
+	let velocidadActual = 1;
+
+	// Click en planetas
+	document.querySelectorAll('[data-planeta]').forEach(el => {
+		el.addEventListener('click', (e) => {
+			e.stopPropagation();
+			const key = el.dataset.planeta;
+			const data = planetas[key];
+			if (!data) return;
+
+			mostrarInfo(data);
+			// Resaltar planeta
+			document.querySelectorAll('[data-planeta]').forEach(p => p.classList.remove('activo'));
+			el.classList.add('activo');
+		});
+
+		// Tooltip al hacer hover
+		el.addEventListener('mouseenter', (e) => {
+			const key = el.dataset.planeta;
+			const data = planetas[key];
+			if (!data) return;
+			tooltip.textContent = data.nombre;
+			tooltip.classList.remove('hidden');
+		});
+
+		el.addEventListener('mousemove', (e) => {
+			tooltip.style.left = (e.clientX + 15) + 'px';
+			tooltip.style.top = (e.clientY + 15) + 'px';
+		});
+
+		el.addEventListener('mouseleave', () => {
+			tooltip.classList.add('hidden');
+		});
+	});
+
+	function mostrarInfo(data) {
+		document.getElementById('info-nombre').textContent = data.nombre;
+		document.getElementById('info-tipo').textContent = data.tipo;
+		document.getElementById('info-tipo').style.background = data.color + '44';
+		document.getElementById('info-tipo').style.color = data.color;
+		document.getElementById('info-descripcion').textContent = data.descripcion;
+		document.getElementById('info-distancia').textContent = data.distancia;
+		document.getElementById('info-temperatura').textContent = data.temperatura;
+		document.getElementById('info-diametro').textContent = data.diametro;
+		document.getElementById('info-orbita').textContent = data.orbita;
+		document.getElementById('info-lunas').textContent = data.lunas;
+		document.getElementById('info-dato-curioso').innerHTML = '<strong>Dato curioso:</strong> ' + data.curioso;
+
+		const icono = document.getElementById('info-icono');
+		icono.style.background = data.color;
+		icono.style.boxShadow = '0 0 20px ' + data.color;
+
+		infoPanel.classList.remove('hidden');
+		infoPanel.classList.add('show');
+	}
+
+	// Cerrar panel
+	document.getElementById('cerrar-panel').addEventListener('click', () => {
+		infoPanel.classList.remove('show');
+		infoPanel.classList.add('hidden');
+		document.querySelectorAll('[data-planeta]').forEach(p => p.classList.remove('activo'));
+	});
+
+	// Pausar/Reanudar
+	const btnPausa = document.getElementById('btn-pausa');
+	btnPausa.addEventListener('click', () => {
+		animacionPausada = !animacionPausada;
+		document.body.classList.toggle('pausado', animacionPausada);
+		btnPausa.innerHTML = animacionPausada ? '&#9654; Reanudar' : '&#10074;&#10074; Pausar';
+	});
+
+	// Control de velocidad
+	const sliderVelocidad = document.getElementById('velocidad');
+	const velLabel = document.getElementById('vel-label');
+	sliderVelocidad.addEventListener('input', (e) => {
+		velocidadActual = parseFloat(e.target.value);
+		velLabel.textContent = velocidadActual.toFixed(1) + 'x';
+		document.documentElement.style.setProperty('--speed', 1 / velocidadActual);
+	});
+
+	// Reset
+	document.getElementById('btn-reset').addEventListener('click', () => {
+		// Reset zoom
+		document.getElementById('sistema-solar').style.transform = 'scale(1)';
+		zoomLevel = 1;
+		// Reset velocidad
+		velocidadActual = 1;
+		sliderVelocidad.value = 1;
+		velLabel.textContent = '1x';
+		document.documentElement.style.setProperty('--speed', 1);
+		// Cerrar panel
+		infoPanel.classList.remove('show');
+		infoPanel.classList.add('hidden');
+		document.querySelectorAll('[data-planeta]').forEach(p => p.classList.remove('activo'));
+		// Reanudar
+		if (animacionPausada) {
+			animacionPausada = false;
+			document.body.classList.remove('pausado');
+			btnPausa.innerHTML = '&#10074;&#10074; Pausar';
+		}
+	});
+
+	// Zoom con rueda del mouse
+	let zoomLevel = 1;
+	document.querySelector('section').addEventListener('wheel', (e) => {
+		e.preventDefault();
+		const delta = e.deltaY > 0 ? -0.1 : 0.1;
+		zoomLevel = Math.max(0.3, Math.min(3, zoomLevel + delta));
+		document.getElementById('sistema-solar').style.transform = `scale(${zoomLevel})`;
+	}, { passive: false });
+
+	// Generar estrellas de fondo
+	const estrellasContainer = document.getElementById('estrellas');
+	for (let i = 0; i < 100; i++) {
+		const star = document.createElement('div');
+		star.className = 'estrella';
+		star.style.left = Math.random() * 100 + '%';
+		star.style.top = Math.random() * 100 + '%';
+		star.style.width = star.style.height = (Math.random() * 3 + 1) + 'px';
+		star.style.animationDelay = Math.random() * 3 + 's';
+		star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+		estrellasContainer.appendChild(star);
+	}
+
+	// Cerrar panel al hacer clic fuera
+	document.addEventListener('click', (e) => {
+		if (!infoPanel.contains(e.target) && !e.target.closest('[data-planeta]')) {
+			infoPanel.classList.remove('show');
+			infoPanel.classList.add('hidden');
+			document.querySelectorAll('[data-planeta]').forEach(p => p.classList.remove('activo'));
+		}
+	});
+
+	// Teclado: Escape para cerrar
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape') {
+			infoPanel.classList.remove('show');
+			infoPanel.classList.add('hidden');
+			document.querySelectorAll('[data-planeta]').forEach(p => p.classList.remove('activo'));
+		}
+		if (e.key === ' ') {
+			e.preventDefault();
+			btnPausa.click();
+		}
+	});
+	</script>
 
 </body>
 </html>
