@@ -27,8 +27,16 @@
 	<!-- Panel de información -->
 	<div id="info-panel" class="info-panel hidden">
 		<button id="cerrar-panel" class="cerrar-btn">&times;</button>
+		<!-- Planeta 3D -->
+		<div class="planeta-3d-container">
+			<div id="planeta-3d" class="planeta-3d">
+				<div class="planeta-esfera"></div>
+				<div class="planeta-atmosfera"></div>
+				<div class="planeta-brillo"></div>
+				<div id="planeta-anillo" class="planeta-anillo hidden"></div>
+			</div>
+		</div>
 		<div class="info-header">
-			<div id="info-icono" class="info-icono"></div>
 			<h2 id="info-nombre"></h2>
 			<span id="info-tipo" class="info-tipo"></span>
 		</div>
@@ -96,6 +104,100 @@
 
 	<script>
 	// ==================== DATOS DE LOS PLANETAS ====================
+	// Estilos 3D para cada planeta (gradientes CSS realistas)
+	const estilos3D = {
+		sol: {
+			esfera: 'radial-gradient(circle at 35% 35%, #fff6d5, #ffcc33 30%, #ff9900 60%, #cc6600 85%, #993300)',
+			atmosfera: 'radial-gradient(circle at 50% 50%, rgba(255,200,50,0.4) 0%, rgba(255,150,0,0.2) 50%, transparent 70%)',
+			brillo: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 50%)',
+			sombra: '0 0 60px rgba(255,170,0,0.8), 0 0 120px rgba(255,100,0,0.4), inset -15px -15px 30px rgba(150,60,0,0.4)',
+			anillo: false,
+			size: 130
+		},
+		mercurio: {
+			esfera: 'radial-gradient(circle at 35% 35%, #d4d4d4, #b6bac5 25%, #8a8d96 50%, #6b6e77 70%, #3d3f45)',
+			atmosfera: 'none',
+			brillo: 'radial-gradient(circle at 28% 28%, rgba(255,255,255,0.5) 0%, transparent 45%)',
+			sombra: 'inset -20px -15px 30px rgba(0,0,0,0.6)',
+			anillo: false,
+			size: 70
+		},
+		venus: {
+			esfera: 'radial-gradient(circle at 35% 35%, #f5d89a, #d4a84b 25%, #bf8639 50%, #a06a20 70%, #6b4513)',
+			atmosfera: 'radial-gradient(circle at 50% 50%, rgba(230,190,100,0.3) 0%, rgba(200,150,50,0.15) 60%, transparent 75%)',
+			brillo: 'radial-gradient(circle at 28% 28%, rgba(255,255,230,0.5) 0%, transparent 45%)',
+			sombra: 'inset -18px -15px 30px rgba(60,30,0,0.5)',
+			anillo: false,
+			size: 90
+		},
+		tierra: {
+			esfera: 'radial-gradient(circle at 35% 35%, #87ceeb, #4a90d9 20%, #2070b0 35%, #1a6b34 45%, #2e8b57 55%, #1a5c2a 60%, #1560a0 70%, #0a3d6b)',
+			atmosfera: 'radial-gradient(circle at 50% 50%, rgba(135,206,235,0.3) 0%, rgba(70,130,180,0.15) 60%, transparent 75%)',
+			brillo: 'radial-gradient(circle at 25% 25%, rgba(255,255,255,0.55) 0%, transparent 50%)',
+			sombra: 'inset -20px -15px 35px rgba(0,0,50,0.6)',
+			anillo: false,
+			size: 95
+		},
+		marte: {
+			esfera: 'radial-gradient(circle at 35% 35%, #e8a070, #cc6633 25%, #aa4200 45%, #8b3000 60%, #5c2000 80%, #3d1500)',
+			atmosfera: 'radial-gradient(circle at 50% 50%, rgba(200,100,50,0.15) 0%, transparent 65%)',
+			brillo: 'radial-gradient(circle at 28% 28%, rgba(255,200,150,0.45) 0%, transparent 45%)',
+			sombra: 'inset -18px -15px 30px rgba(30,5,0,0.6)',
+			anillo: false,
+			size: 80
+		},
+		asteroides: {
+			esfera: 'radial-gradient(circle at 35% 35%, #aaa, #888 30%, #666 55%, #444 80%)',
+			atmosfera: 'none',
+			brillo: 'radial-gradient(circle at 28% 28%, rgba(255,255,255,0.3) 0%, transparent 40%)',
+			sombra: 'inset -15px -12px 25px rgba(0,0,0,0.5)',
+			anillo: false,
+			size: 65
+		},
+		jupiter: {
+			esfera: 'linear-gradient(180deg, #c4956a 0%, #e0ae6f 10%, #d4a060 18%, #b87840 25%, #e0ae6f 33%, #c89050 40%, #cc5533 45%, #e07040 50%, #d4a060 58%, #e0ae6f 65%, #c4956a 72%, #b87840 80%, #d4a060 90%, #c4956a 100%)',
+			atmosfera: 'radial-gradient(circle at 50% 50%, rgba(224,174,111,0.2) 0%, transparent 70%)',
+			brillo: 'radial-gradient(circle at 28% 28%, rgba(255,230,180,0.4) 0%, transparent 50%)',
+			sombra: 'inset -25px -15px 40px rgba(50,20,0,0.5)',
+			anillo: false,
+			size: 120
+		},
+		saturno: {
+			esfera: 'linear-gradient(180deg, #f0e6c0 0%, #dfd3a9 15%, #d4c48a 30%, #c9b87a 45%, #dfd3a9 60%, #d4c48a 75%, #c4b070 90%, #b8a060 100%)',
+			atmosfera: 'radial-gradient(circle at 50% 50%, rgba(223,211,169,0.15) 0%, transparent 65%)',
+			brillo: 'radial-gradient(circle at 28% 28%, rgba(255,250,220,0.45) 0%, transparent 50%)',
+			sombra: 'inset -22px -15px 35px rgba(50,40,10,0.4)',
+			anillo: true,
+			anilloColor: 'linear-gradient(180deg, transparent 30%, rgba(180,160,100,0.1) 35%, rgba(200,180,130,0.6) 40%, rgba(220,200,150,0.8) 45%, rgba(180,160,110,0.3) 50%, rgba(200,180,130,0.7) 55%, rgba(220,200,150,0.5) 60%, rgba(180,160,100,0.1) 65%, transparent 70%)',
+			size: 100
+		},
+		urano: {
+			esfera: 'radial-gradient(circle at 35% 35%, #b8e8f0, #82b3d1 30%, #6a9fbe 50%, #5288a8 70%, #3a6f8f)',
+			atmosfera: 'radial-gradient(circle at 50% 50%, rgba(130,179,209,0.25) 0%, transparent 70%)',
+			brillo: 'radial-gradient(circle at 25% 25%, rgba(220,245,255,0.5) 0%, transparent 50%)',
+			sombra: 'inset -20px -15px 30px rgba(0,30,60,0.5)',
+			anillo: true,
+			anilloColor: 'linear-gradient(180deg, transparent 38%, rgba(130,179,209,0.15) 42%, rgba(150,200,220,0.4) 48%, rgba(130,179,209,0.15) 52%, transparent 58%)',
+			size: 95
+		},
+		neptuno: {
+			esfera: 'radial-gradient(circle at 35% 35%, #a0d8f0, #5ba3d9 25%, #3080c0 45%, #2060a0 65%, #104080)',
+			atmosfera: 'radial-gradient(circle at 50% 50%, rgba(100,170,235,0.25) 0%, transparent 70%)',
+			brillo: 'radial-gradient(circle at 25% 25%, rgba(200,230,255,0.5) 0%, transparent 48%)',
+			sombra: 'inset -20px -15px 35px rgba(0,10,50,0.6)',
+			anillo: false,
+			size: 93
+		},
+		pluton: {
+			esfera: 'radial-gradient(circle at 35% 35%, #b8a898, #9c8a78 25%, #7c6a5c 45%, #6a5848 65%, #4a3830)',
+			atmosfera: 'none',
+			brillo: 'radial-gradient(circle at 28% 28%, rgba(220,200,180,0.4) 0%, transparent 42%)',
+			sombra: 'inset -15px -12px 25px rgba(20,10,5,0.6)',
+			anillo: false,
+			size: 55
+		}
+	};
+
 	const planetas = {
 		sol: {
 			nombre: "Sol",
@@ -273,6 +375,41 @@
 	});
 
 	function mostrarInfo(data) {
+		// Buscar clave del planeta
+		const key = Object.keys(planetas).find(k => planetas[k] === data);
+		const estilo = estilos3D[key];
+
+		// Renderizar planeta 3D
+		const planeta3d = document.getElementById('planeta-3d');
+		const esfera = planeta3d.querySelector('.planeta-esfera');
+		const atmosfera = planeta3d.querySelector('.planeta-atmosfera');
+		const brillo = planeta3d.querySelector('.planeta-brillo');
+		const anillo = document.getElementById('planeta-anillo');
+
+		const size = estilo.size;
+		planeta3d.style.width = size + 'px';
+		planeta3d.style.height = size + 'px';
+
+		esfera.style.background = estilo.esfera;
+		esfera.style.boxShadow = estilo.sombra;
+
+		if (estilo.atmosfera !== 'none') {
+			atmosfera.style.background = estilo.atmosfera;
+			atmosfera.style.display = 'block';
+		} else {
+			atmosfera.style.display = 'none';
+		}
+
+		brillo.style.background = estilo.brillo;
+
+		if (estilo.anillo) {
+			anillo.classList.remove('hidden');
+			anillo.style.background = estilo.anilloColor;
+		} else {
+			anillo.classList.add('hidden');
+		}
+
+		// Info textual
 		document.getElementById('info-nombre').textContent = data.nombre;
 		document.getElementById('info-tipo').textContent = data.tipo;
 		document.getElementById('info-tipo').style.background = data.color + '44';
@@ -284,10 +421,6 @@
 		document.getElementById('info-orbita').textContent = data.orbita;
 		document.getElementById('info-lunas').textContent = data.lunas;
 		document.getElementById('info-dato-curioso').innerHTML = '<strong>Dato curioso:</strong> ' + data.curioso;
-
-		const icono = document.getElementById('info-icono');
-		icono.style.background = data.color;
-		icono.style.boxShadow = '0 0 20px ' + data.color;
 
 		infoPanel.classList.remove('hidden');
 		infoPanel.classList.add('show');
